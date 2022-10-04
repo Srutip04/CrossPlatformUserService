@@ -23,6 +23,7 @@ import { useToast } from "@chakra-ui/toast";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Signup = () => {
 
@@ -38,7 +39,7 @@ const Signup = () => {
 
   const submitHandler = async () =>{
      
-     if (!name || !email || !password || !confirmpassword) {
+     if (!name || !email || !password || !confirmpassword || !aadharNo) {
        toast({
          title: "Please Fill all the Feilds",
          status: "warning",
@@ -59,7 +60,51 @@ const Signup = () => {
        });
        return;
      }
+
+     try{
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      }
+     
+     const {data} = await axios.post(
+      "/api/user",{
+        name,
+        email,
+        password,
+        walletAddress,
+        aadharNo,
+        isWeb3,
+        img,
+        coverImg,
+        bio,
+        socials
+
+      },
+      config
+     );
+     console.log(data);
+
+      toast({
+        title: "Registration Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch(error){
+     toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
   }
+}
   return (
     <div>
       <VStack spacing="10px">
