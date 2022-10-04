@@ -16,6 +16,7 @@ import { VStack } from "@chakra-ui/layout";
 import {  InputGroup, InputRightElement } from "@chakra-ui/input";
 import { useToast } from "@chakra-ui/toast";
 import { useState } from "react";
+import axios from "axios";
 
 
 const Login = () => {
@@ -37,7 +38,6 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      setLoading(false);
       return;
     }
 
@@ -124,7 +124,6 @@ const Login = () => {
                 width="100%"
                 style={{ marginTop: 15 }}
                 onClick={submitHandler}
-                isLoading={loading}
               >
                 Sign in
               </Button>
